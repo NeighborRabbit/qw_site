@@ -40,8 +40,8 @@ def register(request):
             new_profile.save()
             UserInfo.objects.create(user=new_user)
             # UserInfo.objects.create(user=new_user)
-            return HttpResponse("successfully")
-            # return HttpResponseRedirect(reverse("account:user_login"))
+            # return HttpResponse("successfully")
+            return HttpResponseRedirect(reverse("account:user_login"))
         else:
             return HttpResponse("sorry, your can not register.")
     else:
