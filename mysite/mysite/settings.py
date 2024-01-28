@@ -64,6 +64,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            #     自定义标签需要在这里添加注册信息
+            'libraries': {
+                'article_tags': 'article.templatetags.article_tags',
+            }
         },
     },
 ]

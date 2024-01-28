@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .models import ArticleColumn, ArticlePost
-# from .forms import CommentForm
+from .forms import CommentForm
 
 from django.db.models import Count
 
@@ -42,24 +42,20 @@ def article_titles(request, username=None):
 
 def article_detail(request, id, slug):
     article = get_object_or_404(ArticlePost, id=id, slug=slug)
-    return render(request, "article/list/article_detail.html", {"article": article})
+    if request.method == "POST":
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.article = article
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+    # return render(request, "article/list/article_detail.html", {"article": article, "comment_form": comment_form})
 
-
-#
-#     if request.method == "POST":
-#         comment_form = CommentForm(data=request.POST)
-#         if comment_form.is_valid():
-#             new_comment = comment_form.save(commit=False)
-#             new_comment.article = article
-#             new_comment.save()
-#     else:
-#         comment_form = CommentForm()
-#
-#     article_tags_ids = article.article_tag.values_list("id", flat=True)
-#     similar_articles = ArticlePost.objects.filter(article_tag__in=article_tags_ids).exclude(id=article.id)
-#     similar_articles = similar_articles.annotate(same_tags=Count("article_tag")).order_by('-same_tags', '-created')[:4]
-#
-#     return render(request, "article/list/article_detail.html", {"article":article, "total_views":total_views, "most_viewed": most_viewed, "comment_form":comment_form, "similar_articles":similar_articles})
+    article_tags_ids = article.article_tag.values_list("id", flat=True)
+    similar_articles = ArticlePost.objects.filter(article_tag__in=article_tags_ids).exclude(id=article.id)
+    similar_articles = similar_articles.annotate(same_tags=Count("article_tag")).order_by('-same_tags', '-created')[:4]
+    return render(request, "article/list/article_detail.html", {"article": article,  "comment_form": comment_form, "similar_articles": similar_articles})
 
 @csrf_exempt
 @require_POST

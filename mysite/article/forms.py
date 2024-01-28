@@ -1,5 +1,5 @@
 from django import forms
-from .models import ArticleColumn, ArticlePost
+from .models import ArticleColumn, ArticlePost, Comment, ArticleTag
 
 
 class ArticleColumnForm(forms.ModelForm):
@@ -13,12 +13,14 @@ class ArticlePostForm(forms.ModelForm):
         model = ArticlePost
         fields = ("title", "body")
 
-# class CommentForm(forms.ModelForm):
-#     class Meta:
-#         model = Comment
-#         fields = ("commentator", "body",)
-#
-# class ArticleTagForm(forms.ModelForm):
-#     class Meta:
-#         model = ArticleTag
-#         fields = ('tag', )
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ("commentator", "body",)
+
+
+class ArticleTagForm(forms.ModelForm):
+    class Meta:
+        model = ArticleTag
+        fields = ('tag',)
