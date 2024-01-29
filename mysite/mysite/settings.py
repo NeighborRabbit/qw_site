@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'blog',
     'account',
     'article',
+    'image',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +126,7 @@ LOGIN_REDIRECT_URL = '/home/'
 
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_HOST_USER = '252397780@qq.com'
-EMAIL_HOST_PASSWORD = 'idkshcrpgywlbgbh'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -134,3 +135,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
